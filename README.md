@@ -37,7 +37,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_private_endpoint_list"></a> [private\_endpoint\_list](#output\_private\_endpoint\_list) | A map of private endpoint names to their corresponding names and IDs |
+| <a name="output_private_endpoints"></a> [private\_endpoints](#output\_private\_endpoints) | A map of private endpoint names to their corresponding names and IDs |
 <!-- END_TF_DOCS -->
 
 ## License
