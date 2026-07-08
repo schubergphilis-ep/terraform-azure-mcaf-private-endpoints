@@ -32,7 +32,8 @@ resource "azurerm_storage_account" "storage_account" {
 }
 
 module "key_vault" {
-  source = "github.com/schubergphilis/terraform-azure-mcaf-key-vault?ref=v0.1.0"
+  source  = "schubergphilis-ep/mcaf-key-vault/azure"
+  version = "0.1.0"
 
   key_vault = {
     name                = "keyvault"
@@ -48,7 +49,8 @@ module "key_vault" {
 }
 
 module "network" {
-  source = "github.com/schubergphilis/terraform-azure-mcaf-network?ref=v0.1.0"
+  source  = "schubergphilis-ep/mcaf-network/azure"
+  version = "0.1.0"
   resource_group = {
     name     = local.resource_group_name
     location = local.location
@@ -90,7 +92,8 @@ resource "azurerm_lb" "loadbalancer" {
 }
 
 module "private_endpoints" {
-  source = "github.com/schubergphilis/terraform-azure-mcaf-private-endpoints?ref=v0.2.0"
+  source  = "schubergphilis-ep/mcaf-private-endpoints/azure"
+  version = "0.2.0"
 
   resource_group_name = local.resource_group_name
   location            = local.location
