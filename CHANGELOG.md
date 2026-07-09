@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.1](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/compare/v1.0.0...v1.0.1) (2026-07-09)
+
+
+### 🐛 Fixes
+
+* migrate MCAF module sources ([#2](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/issues/2)) ([6360bef](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/commit/6360befa584044faabbf274e41d6c13ca82bb072))
+
 ## [1.0.0](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/compare/v0.5.0...v1.0.0) (2025-07-28)
 
 
@@ -72,4 +79,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🚀 Features
 
 * adding first release ([#1](https://github.com/schubergphilis/terraform-azure-mcaf-private-endpoints/pull/1)) ([5629e0c](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/commit/5629e0c6bf0828e0c1bedb566c3a33fb691bcc7b))
-
