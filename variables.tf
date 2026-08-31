@@ -32,6 +32,7 @@ variable "private_endpoints" {
     request_message                         = optional(string)
     subnet_id                               = string
     subresource_name                        = optional(string)
+    subresource_names                       = optional(list(string))
     tags                                    = optional(map(string))
   }))
   default     = {}
@@ -58,6 +59,7 @@ This object describes the private endpoint configuration.
 - `request_message` - (Optional) A message passed to the owner of the remote resource when the private endpoint attempts to establish the connection to the remote resource.
 - `subnet_id` - (Required) The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint.
 - `subresource_name` - (Optional) A subresource name which the Private Endpoint is able to connect to, e.g. 'vault' for key vault or 'blob' for storage account. Required when not using a custom Private Link service.
+- `subresource_names` - (Optional) A list of subresource names, for targets that expose more than one on a single endpoint. Mutually exclusive with `subresource_name`. The first entry is used when deriving the default endpoint and NIC names.
 - `tags` - (Optional) A mapping of tags to assign to the resource.
 
   Example Inputs:
