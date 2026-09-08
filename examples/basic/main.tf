@@ -31,9 +31,7 @@ resource "azurerm_storage_account" "storage_account" {
   account_replication_type = "LRS"
 }
 
-# A plain resource rather than mcaf-key-vault: this example only needs something to point a
-# private endpoint at, and depending on another module couples this repository's CI to that
-# module's release cycle -- which is what broke it here.
+# Plain resource: the example exercises this module only.
 resource "azurerm_key_vault" "key_vault" {
   name                       = "keyvault"
   tenant_id                  = "00000000-0000-0000-0000-000000000000"
@@ -48,9 +46,7 @@ resource "azurerm_key_vault" "key_vault" {
   }
 }
 
-# Plain resources rather than mcaf-network. An example for THIS module should exercise this
-# module, not couple the repository's CI to another module's API and release cycle -- which is
-# exactly what broke it: the pinned mcaf-network and mcaf-key-vault versions predate azurerm v5.
+# Plain resources: the example exercises this module only.
 resource "azurerm_virtual_network" "vnet" {
   name                = "vnet"
   address_space       = ["10.0.0.0/8"]
