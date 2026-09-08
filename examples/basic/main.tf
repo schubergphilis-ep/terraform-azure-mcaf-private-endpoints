@@ -110,7 +110,7 @@ module "private_endpoints" {
       private_dns_zone_ids           = [azurerm_private_dns_zone.this["privatelink.blob.core.windows.net"].id]
       private_connection_resource_id = azurerm_storage_account.storage_account.id
       subnet_id                      = azurerm_subnet.app.id
-      subresource_names               = ["blob"]
+      subresource_names              = ["blob"]
       ip_configuration = [
         {
           private_ip_address = "10.0.2.39"
@@ -122,7 +122,7 @@ module "private_endpoints" {
       private_dns_zone_ids           = [azurerm_private_dns_zone.this["privatelink.vaultcore.azure.net"].id]
       private_connection_resource_id = azurerm_key_vault.key_vault.id
       subnet_id                      = azurerm_subnet.app.id
-      subresource_names               = ["vault"]
+      subresource_names              = ["vault"]
     }
 
     # Private endpoint example to a private link service using a dynamic IP.
