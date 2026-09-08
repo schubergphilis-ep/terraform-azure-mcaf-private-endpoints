@@ -1,11 +1,10 @@
 locals {
-  # subresource_names is the provider's own field and is a LIST. subresource_name is kept
-  # as the singular convenience form; this resolves whichever was given to one list, and
-  # picks the first entry for the derived endpoint/NIC names.
+  # subresource_names is the provider's own field and is a list; the first entry names the
+  # endpoint and NIC when the caller does not.
   private_endpoint_subresources = {
     for k, v in var.private_endpoints : k => {
-      names       = v.subresource_names != null ? v.subresource_names : (v.subresource_name != null ? [v.subresource_name] : null)
-      name_suffix = v.subresource_names != null ? try(v.subresource_names[0], null) : v.subresource_name
+      names       = v.subresource_names
+      name_suffix = try(v.subresource_names[0], null)
     }
   }
 }
