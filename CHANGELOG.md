@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.0](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/compare/v1.0.1...v2.0.0) (2026-09-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* azurerm v5 renamed azurerm_private_link_service.enable_proxy_protocol to proxy_protocol_enabled, so this module now requires azurerm >= 5. Consumers move roots to azurerm ~> 5.0; the rename is in place and replaces no resources. Consumers that cannot move yet stay on ~> 1.0. See UPGRADING.md (added with the subresource_names change that ships in the same major).
+
+### 🐛 Fixes
+
+* rename enable_proxy_protocol and require azurerm 5 ([#4](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/issues/4)) ([45eacb2](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/commit/45eacb28c77deeebc9fcb54f6424c5eadbb735c4))
+
 ## [1.0.1](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/compare/v1.0.0...v1.0.1) (2026-07-09)
 
 
