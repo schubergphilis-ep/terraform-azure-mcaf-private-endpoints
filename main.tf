@@ -93,7 +93,7 @@ resource "azurerm_private_link_service" "this" {
   location                                    = each.value.location != null ? each.value.location : var.location
   resource_group_name                         = each.value.resource_group_name != null ? each.value.resource_group_name : var.resource_group_name
   auto_approval_subscription_ids              = each.value.auto_approval_subscription_ids != null ? each.value.auto_approval_subscription_ids : []
-  enable_proxy_protocol                       = each.value.enable_proxy_protocol != null ? each.value.enable_proxy_protocol : false
+  proxy_protocol_enabled                      = each.value.enable_proxy_protocol != null ? each.value.enable_proxy_protocol : false
   fqdns                                       = each.value.fqdns != null ? each.value.fqdns : []
   load_balancer_frontend_ip_configuration_ids = each.value.load_balancer_frontend_ip_configuration_ids != null ? each.value.load_balancer_frontend_ip_configuration_ids : []
   visibility_subscription_ids                 = each.value.visibility_subscription_ids != null ? each.value.visibility_subscription_ids : []
