@@ -1,11 +1,22 @@
+locals {
+  # Default endpoint and NIC names: <target resource name>-<first subresource>-pep|nic.
+  # subresource_names is a list, so the first entry is the one that names the endpoint.
+  private_endpoint_names = {
+    for k, v in var.private_endpoints : k => {
+      name     = v.name != null ? v.name : "${provider::azurerm::parse_resource_id(v.private_connection_resource_id)["resource_name"]}-${v.subresource_names[0]}-pep"
+      nic_name = v.custom_network_interface_name != null ? v.custom_network_interface_name : "${provider::azurerm::parse_resource_id(v.private_connection_resource_id)["resource_name"]}-${v.subresource_names[0]}-nic"
+    }
+  }
+}
+
 resource "azurerm_private_endpoint" "this" {
   for_each = { for k, v in var.private_endpoints : k => v if v.private_endpoints_manage_dns_zone_group }
 
-  name                          = each.value.name != null ? each.value.name : "${provider::azurerm::parse_resource_id(each.value.private_connection_resource_id)["resource_name"]}-${each.value.subresource_name}-pep"
+  name                          = local.private_endpoint_names[each.key].name
   location                      = coalesce(each.value.location, var.location)
   resource_group_name           = coalesce(each.value.resource_group_name, var.resource_group_name)
   subnet_id                     = each.value.subnet_id
-  custom_network_interface_name = each.value.custom_network_interface_name != null ? each.value.custom_network_interface_name : "${provider::azurerm::parse_resource_id(each.value.private_connection_resource_id)["resource_name"]}-${each.value.subresource_name}-nic"
+  custom_network_interface_name = local.private_endpoint_names[each.key].nic_name
 
   private_service_connection {
     name                              = each.value.private_service_connection_name != null ? each.value.private_service_connection_name : "${each.key}_psc"
@@ -13,7 +24,7 @@ resource "azurerm_private_endpoint" "this" {
     private_connection_resource_alias = each.value.private_connection_resource_alias != null ? each.value.private_connection_resource_alias : null
     private_connection_resource_id    = each.value.private_connection_resource_id != null ? each.value.private_connection_resource_id : null
     request_message                   = each.value.request_message != null ? each.value.request_message : null
-    subresource_names                 = each.value.subresource_name != null ? [each.value.subresource_name] : null
+    subresource_names                 = each.value.subresource_names
   }
 
   dynamic "private_dns_zone_group" {
@@ -32,7 +43,7 @@ resource "azurerm_private_endpoint" "this" {
       name               = ip_configuration.value.name != null ? ip_configuration.value.name : "${each.key}_ip"
       member_name        = ip_configuration.value.member_name != null ? ip_configuration.value.member_name : "default"
       private_ip_address = ip_configuration.value.private_ip_address
-      subresource_name   = ip_configuration.value.subresource_name != null ? ip_configuration.value.subresource_name : each.value.subresource_name
+      subresource_name   = ip_configuration.value.subresource_name != null ? ip_configuration.value.subresource_name : try(each.value.subresource_names[0], null)
     }
   }
 
@@ -47,11 +58,11 @@ resource "azurerm_private_endpoint" "this" {
 resource "azurerm_private_endpoint" "this_unmanaged_dns_zone_groups" {
   for_each = { for k, v in var.private_endpoints : k => v if !v.private_endpoints_manage_dns_zone_group }
 
-  name                          = each.value.name != null ? each.value.name : "${provider::azurerm::parse_resource_id(each.value.private_connection_resource_id)["resource_name"]}-${each.value.subresource_name}-pep"
+  name                          = local.private_endpoint_names[each.key].name
   location                      = coalesce(each.value.location, var.location)
   resource_group_name           = coalesce(each.value.resource_group_name, var.resource_group_name)
   subnet_id                     = each.value.subnet_id
-  custom_network_interface_name = each.value.custom_network_interface_name != null ? each.value.custom_network_interface_name : "${provider::azurerm::parse_resource_id(each.value.private_connection_resource_id)["resource_name"]}-${each.value.subresource_name}-nic"
+  custom_network_interface_name = local.private_endpoint_names[each.key].nic_name
 
   private_service_connection {
     name                              = each.value.private_service_connection_name != null ? each.value.private_service_connection_name : "${each.key}_psc"
@@ -59,7 +70,7 @@ resource "azurerm_private_endpoint" "this_unmanaged_dns_zone_groups" {
     private_connection_resource_alias = each.value.private_connection_resource_alias != null ? each.value.private_connection_resource_alias : null
     private_connection_resource_id    = each.value.private_connection_resource_id != null ? each.value.private_connection_resource_id : null
     request_message                   = each.value.request_message != null ? each.value.request_message : null
-    subresource_names                 = each.value.subresource_name != null ? [each.value.subresource_name] : null
+    subresource_names                 = each.value.subresource_names
   }
 
   dynamic "ip_configuration" {
@@ -69,7 +80,7 @@ resource "azurerm_private_endpoint" "this_unmanaged_dns_zone_groups" {
       name               = ip_configuration.value.name != null ? ip_configuration.value.name : "${each.key}_ip"
       member_name        = ip_configuration.value.member_name != null ? ip_configuration.value.member_name : "default"
       private_ip_address = ip_configuration.value.private_ip_address
-      subresource_name   = ip_configuration.value.subresource_name != null ? ip_configuration.value.subresource_name : each.value.subresource_name
+      subresource_name   = ip_configuration.value.subresource_name != null ? ip_configuration.value.subresource_name : try(each.value.subresource_names[0], null)
     }
   }
 

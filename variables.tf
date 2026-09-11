@@ -31,7 +31,7 @@ variable "private_endpoints" {
     private_endpoints_manage_dns_zone_group = optional(bool, true)
     request_message                         = optional(string)
     subnet_id                               = string
-    subresource_name                        = optional(string)
+    subresource_names                       = optional(list(string))
     tags                                    = optional(map(string))
   }))
   default     = {}
@@ -57,7 +57,7 @@ This object describes the private endpoint configuration.
 - `private_endpoints_manage_dns_zone_group` - (Optional) Should the Private Endpoint manage the DNS Zone Group, or manage it through azure policy for example, defaults to true.
 - `request_message` - (Optional) A message passed to the owner of the remote resource when the private endpoint attempts to establish the connection to the remote resource.
 - `subnet_id` - (Required) The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint.
-- `subresource_name` - (Optional) A subresource name which the Private Endpoint is able to connect to, e.g. 'vault' for key vault or 'blob' for storage account. Required when not using a custom Private Link service.
+- `subresource_names` - (Optional) The subresource names the Private Endpoint connects to, e.g. `["vault"]` for a key vault or `["blob"]` for a storage account; more than one for targets that expose several on one endpoint. Required when not using a custom Private Link service. The first entry is used when deriving the default endpoint and NIC names.
 - `tags` - (Optional) A mapping of tags to assign to the resource.
 
   Example Inputs:
@@ -67,7 +67,7 @@ This object describes the private endpoint configuration.
     "blob-private-endpoint" = {
       private_connection_resource_id = azurerm_storage_account.storage_account.id
       subnet_id                      = azurerm_subnet.app-subnet.id
-      subresource_name               = "blob"
+      subresource_names              = ["blob"]
       private_endpoints_manage_dns_zone_group = false
     }
   }
