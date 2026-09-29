@@ -73,6 +73,11 @@ This object describes the private endpoint configuration.
   }
   ```hcl
 DESCRIPTION
+
+  validation {
+    condition     = alltrue([for v in var.private_endpoints : v.subresource_names == null || length(coalesce(v.subresource_names, [])) > 0])
+    error_message = "subresource_names must be null or contain at least one entry."
+  }
 }
 
 variable "private_link_services" {
