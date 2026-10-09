@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.0.0](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/compare/v1.0.1...v2.0.0) (2026-10-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* private_endpoints.*.subresource_name is removed; use subresource_names = ["<name>"]. A one-element list derives the same default names, so existing endpoints plan no change. ip_configuration[*].subresource_name is the provider's per-IP field and is unchanged.
+* azurerm v5 renamed azurerm_private_link_service.enable_proxy_protocol to proxy_protocol_enabled, so this module now requires azurerm >= 5. Consumers move roots to azurerm ~> 5.0; the rename is in place and replaces no resources. Consumers that cannot move yet stay on ~> 1.0. See UPGRADING.md (added with the subresource_names change that ships in the same major).
+
+### 🚀 Features
+
+* replace subresource_name with the subresource_names list ([#5](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/issues/5)) ([3ce72d5](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/commit/3ce72d5c36c22fd5dc815cd6e09d6d4edadc9afe))
+
+
+### 🐛 Fixes
+
+* rename enable_proxy_protocol and require azurerm 5 ([#4](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/issues/4)) ([45eacb2](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/commit/45eacb28c77deeebc9fcb54f6424c5eadbb735c4))
+
 ## [1.0.1](https://github.com/schubergphilis-ep/terraform-azure-mcaf-private-endpoints/compare/v1.0.0...v1.0.1) (2026-07-09)
 
 
